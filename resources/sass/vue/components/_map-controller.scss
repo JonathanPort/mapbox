@@ -1,0 +1,17 @@
+.map-controller {
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: 700px;
+    background-color: rgba(#fff, 0.3);
+    backdrop-filter: blur(24px);
+    border-radius: 4px;
+}
+
+.map-controller__controls {
+    display: flex;
+}
+
+.map-controller__control {}

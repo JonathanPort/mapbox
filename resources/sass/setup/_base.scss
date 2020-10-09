@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body, p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background-color: $color--html;
+}
+
+body {
+    background-color: $color--body;
+    position: relative;
+    min-height: 100vh;
+}
+
+::selection {
+    background-color: $color--brand;
+    color: $color--text-light;
+}
+
+
+.wrap {
+    @include wrap();
+}

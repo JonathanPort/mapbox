@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700&display=swap');
+
+$font-weight--light: 300;
+$font-weight--regular: 400;
+$font-weight--medium: 500;
+$font-weight--semibold: 600;
+$font-weight--bold: 700;
+
+body {
+    font-family: 'Epilogue', 'Helvetica', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $color--text-primary;
+}
+
+a {
+    font-weight: $font-weight--regular;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

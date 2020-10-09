@@ -1,0 +1,43 @@
+$colors: (
+    'absolute-white':   #ffffff,
+    'almost-white':     #f4f4f4,
+    'pale-blue':        #E2F1F8,
+    'powder-blue':      #d2d9df,
+    'light-grey-blue':  #99acbd,
+    'soft-blue':        #5bb9e4,
+    'bluish':           #2189b8,
+    'dusk-blue':        #245a8a,
+    'twilight-blue':    #0c304f,
+    'almost-black':     #1a1a1a,
+);
+
+
+// Misc
+$color--general-black: map-get($colors, 'almost-black');
+$color--general-white: map-get($colors, 'absolute-white');
+$color--general-offwhite: map-get($colors, 'almost-white');
+
+// Layouts
+$color--html: map-get($colors, 'pale-blue');
+$color--body: map-get($colors, 'absolute-white');
+
+// Panel
+$color--panel-bg: map-get($colors, 'absolute-white');
+$color--panel-contrast: lighten(map-get($colors, 'powder-blue'), 35%);
+$color--panel-border: map-get($colors, 'light-grey-blue');
+// $color--panel-contrast: #F5F6FA;
+// $color--panel-contrast-2: #FDFDFD;
+
+
+// Brand
+$color--brand: map-get($colors, 'bluish');
+$color--brand-contrast: map-get($colors, 'dusk-blue');
+$color--brand-dark: map-get($colors, 'twilight-blue');
+$color--brand-light: map-get($colors, 'soft-blue');
+
+// Text
+$color--heading-primary: map-get($colors, 'dusk-blue');
+$color--heading-secondary: map-get($colors, 'twilight-blue');
+$color--text-primary: map-get($colors, 'twilight-blue');
+$color--text-dark: map-get($colors, 'almost-black');
+$color--text-light: map-get($colors, 'almost-white');

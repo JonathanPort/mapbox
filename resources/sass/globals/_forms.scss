@@ -1,0 +1,368 @@
+%input-base {
+    width: 100%;
+    appearance: none;
+    background-color: $color--panel-bg;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    outline: none;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 18px;
+    font-weight: $font-weight--regular;
+    color: $color--text-primary;
+    font-family: inherit;
+
+    &:focus {
+        border: 1px solid $color--brand-light;
+        box-shadow: 0px 2px 33px -14px rgba(0, 0, 0, 0.18);
+    }
+
+    &.wpcf7-not-valid {
+        border-right: 3px solid coral;
+    }
+
+    @media screen and (max-width: 768px) {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 16px;
+    }
+
+}
+
+
+.input {
+    @extend %input-base;
+}
+
+.textarea {
+    @extend %input-base;
+}
+
+
+// // CF7
+// .wpcf7 {
+
+//     br {
+//         display: none;
+//     }
+
+//     .screen-reader-response {
+//         position: absolute;
+//         overflow: hidden;
+//         clip: rect(1px, 1px, 1px, 1px);
+//         height: 1px;
+//         width: 1px;
+//         margin: 0;
+//         padding: 0;
+//         border: 0;
+//     }
+// }
+
+// .wpcf7-form {
+
+//     &.invalid {}
+
+// }
+
+// .wpcf7-flex-wrap {
+//     display: flex;
+//     flex-wrap: wrap;
+
+//     .select-wrap {
+//         flex: 1;
+//         margin-bottom: 20px;
+
+//         .wpcf7-form-control-wrap {
+//             display: flex;
+//             align-items: center;
+
+//             margin-left: 0px;
+//             margin-right: 0px;
+
+//             &:first-of-type {
+//                 margin-left: 0px;
+//                 margin-right: 0px;
+//             }
+
+//             &:last-of-type {
+//                 margin-left: 0px;
+//                 margin-right: 0px;
+//             }
+
+//             .wpcf7-form-control {
+//                 margin-bottom: 0px;
+//             }
+//         }
+
+//         margin-left: 10px;
+//         margin-right: 10px;
+
+//         &:first-child {
+//             margin-left: 0px;
+//             margin-right: 10px;
+//         }
+
+//         &:last-child {
+//             margin-left: 10px;
+//             margin-right: 0px;
+//         }
+
+
+//     }
+
+//     .wpcf7-form-control-wrap {
+//         margin-bottom: 0px !important;
+//         margin-left: 10px;
+//         margin-right: 10px;
+
+//         // &.date-required-date {
+//         //     position: relative;
+//         //     &:before {
+//         //         content: 'Required delivery date';
+//         //         position: absolute;
+//         //         top: 12px;
+//         //         font-size: 14px;
+//         //         right: 53px;
+//         //         color: $color--text-secondary;
+//         //         font-weight: $font-weight--bold;
+//         //     }
+//         // }
+
+//         &:first-child {
+//             margin-left: 0px;
+//             margin-right: 10px;
+//         }
+
+//         &:last-child {
+//             margin-left: 10px;
+//             margin-right: 0px;
+//         }
+
+//         .wpcf7-form-control {
+//             margin-bottom: 20px;
+//         }
+
+//     }
+// }
+
+
+// @media screen and (max-width: 600px) {
+
+//     .wpcf7-flex-wrap {
+
+//         .wpcf7-form-control-wrap, .select-wrap {
+//             flex-basis: 100%;
+
+//             &:first-child {
+//                 margin-left: 0px;
+//                 margin-right: 0px;
+//             }
+
+//             &:last-child {
+//                 margin-left: 0px;
+//                 margin-right: 0px;
+//             }
+
+//             .wpcf7-form-control {
+//                 margin-bottom: 20px;
+//             }
+
+//         }
+//     }
+
+// }
+
+// .wpcf7-form-control-wrap {
+//     display: block;
+//     position: relative;
+//     flex: 1;
+
+//     &:not(:last-child) {
+//         margin-bottom: 20px;
+//     }
+// }
+
+// .wpcf7-form-control {
+
+//     &.wpcf7-text {
+//         @extend %input-base;
+//     }
+
+//     &.wpcf7-email {}
+
+//     &.wpcf7-number {
+//         @extend %input-base;
+//     }
+
+//     &.wpcf7-date {
+//         @extend %input-base;
+//         text-align: right;
+
+//         &:before {
+//             content: 'Required delivery date:';
+//             position: absolute;
+//             top: 12px;
+//             font-size: 14px;
+//             color: $color--text-secondary;
+//             font-weight: $font-weight--bold;
+//             left: 15px;
+//             text-align: left;
+//         }
+
+//         &:after {
+//             content: 'Open date picker';
+//             position: absolute;
+//             top: 12px;
+//             font-size: 14px;
+//             right: 53px;
+//             color: $color--text-secondary;
+//             font-weight: $font-weight--bold;
+//             opacity: 0;
+//         }
+
+//         // &:hover {
+//         //     &:before {
+//         //         opacity: 0;
+//         //     }
+//         //     &:after {
+//         //         opacity: 1;
+//         //     }
+//         // }
+
+//         // &::-webkit-inner-spin-button {
+//         //     /* display: none; <- Crashes Chrome on hover */
+//         //     -webkit-appearance: none;
+//         //     margin: 0;
+//         // }
+//     }
+
+//     &.wpcf7-select {
+//         // @extend %input-base;
+//     }
+
+//     &.wpcf7-file {
+//         outline: none;
+//     }
+
+//     &.wpcf7-textarea {
+//         @extend %input-base;
+//         height: 150px;
+
+//         ~ .wpcf7-not-valid-tip {
+//             top: 10px;
+//             transform: none;
+//         }
+//     }
+
+//     &.wpcf7-acceptance {
+//         padding-top: 20px;
+//         padding-bottom: 10px;
+//         display: block;
+
+//         label {
+//             display: flex;
+//             align-items: center;
+
+//             input {
+//                 margin-right: 10px;
+//             }
+
+//             .wpcf7-list-item-label {
+//                 font-size: 14px;
+//                 font-weight: $font-weight--regular;
+//                 color: $color--heading-primary;
+//             }
+//         }
+//     }
+
+//     &.wpcf7-submit {
+//         @extend %btn-base;
+//         @extend %btn-secondary-style;
+//         @extend %btn-large;
+
+//         &[disabled] {
+//             opacity: 0.5;
+//         }
+//     }
+
+//     &.wpcf7-validates-as-required {}
+
+//     &.wpcf7-not-valid {}
+
+// }
+
+// .wpcf7-not-valid-tip {
+//     position: absolute;
+//     display: block;
+//     top: 50%;
+//     transform: translateY(-50%);
+//     right: 15px;
+//     font-size: 13px;
+//     font-weight: $font-weight--bold;
+//     user-select: none;
+//     color: $color--brand-primary;
+//     opacity: 0.3;
+//     pointer-events: none;
+// }
+
+// .wpcf7-response-output {
+//     padding-top: 20px;
+//     padding-bottom: 20px;
+//     font-size: 17px;
+//     font-weight: $font-weight--regular;
+//     color: $color--text-primary;
+
+//     &.wpcf7-display-none {}
+//     &.wpcf7-validation-errors {}
+// }
+
+
+// .wpcf7-file-area {
+//     width: 100%;
+//     background-color: $color--panel-contrast;
+//     display: block;
+//     margin-top: 0px;
+//     margin-bottom: 20px;
+//     padding-top: 20px;
+//     padding-bottom: 20px;
+//     padding-left: 20px;
+//     padding-right: 20px;
+//     cursor: pointer;
+//     border-radius: 4px;
+
+//     .label {
+//         display: block;
+//         font-size: 18px;
+//         font-weight: $font-weight--bold;
+//         color: $color--heading-primary;
+//         margin-bottom: 10px;
+//     }
+
+//     .wpcf7-form-control-wrap {
+//         margin-bottom: 0px;
+//     }
+// }
+
+
+// .select-wrap {
+//     position: relative;
+
+//     select {
+//         @extend %input-base;
+//         padding-right: 60px;
+//     }
+
+//     img {
+//         position: absolute;
+//         width: 20px;
+//         top: 50%;
+//         transform: translateY(-50%);
+//         right: 15px;
+//         opacity: 0.3;
+//     }
+
+// }

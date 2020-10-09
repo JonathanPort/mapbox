@@ -1,0 +1,50 @@
+.modal {
+    opacity: 0;
+    visibility: hidden;
+
+    &.is-open {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.modal__underlay {
+    @include absoluteFit();
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba($color--general-black, 0.3);
+    z-index: 10;
+}
+
+.modal__body {
+    background-color: #fff;
+    max-width: calc(992px - 5vw);
+    max-height: 90vh;
+    border-radius: 4px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal__close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.modal__inner {
+    padding-top: 50px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.modal__heading {
+    font-size: 28px;
+    font-weight: $font-weight--bold;
+    color: $color--heading-primary;
+    margin-bottom: 20px;
+}
