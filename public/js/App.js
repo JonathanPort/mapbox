@@ -1953,6 +1953,13 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../Includes/MapboxStyles */ "./resources/js/Vue/Includes/MapboxStyles.js");
+/* harmony import */ var _Includes_ForwardGeocodingService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../Includes/ForwardGeocodingService */ "./resources/js/Vue/Includes/ForwardGeocodingService.js");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1981,11 +1988,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       mapboxStyles: _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"],
-      selectedStyle: _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"].satellite.style
+      selectedStyle: _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"].satellite.style,
+      searchQuery: '',
+      searchResults: [],
+      ForwardGeocodingService: new _Includes_ForwardGeocodingService__WEBPACK_IMPORTED_MODULE_1__["default"](),
+      searchTimer: false,
+      searchTimerWaitTime: 400
     };
   },
   props: {//
@@ -1993,6 +2006,21 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     onStyleSelect: function onStyleSelect() {
       this.$eventHub.$emit('mapbox::change-style', this.selectedStyle);
+    },
+    onSearch: function onSearch() {
+      var _this = this;
+
+      clearTimeout(this.searchTimer);
+      return this.searchTimer = setTimeout(function () {
+        var service = _this.ForwardGeocodingService;
+        _this.searchResults = [];
+
+        if (_this.searchQuery) {
+          service.search(_this.searchQuery, function (results) {
+            console.log(results);
+          });
+        }
+      }, this.searchTimerWaitTime);
     }
   },
   computed: {//
@@ -3509,6 +3537,32 @@ var render = function() {
           }),
           0
         )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "map-controller__control" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.searchQuery,
+              expression: "searchQuery"
+            }
+          ],
+          attrs: { type: "text", placeholder: "search" },
+          domProps: { value: _vm.searchQuery },
+          on: {
+            input: [
+              function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.searchQuery = $event.target.value
+              },
+              _vm.onSearch
+            ]
+          }
+        })
       ])
     ])
   ])
@@ -17240,6 +17294,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Mapbox_vue_vue_type_template_id_36a96091___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Mapbox_vue_vue_type_template_id_36a96091___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Vue/Includes/ForwardGeocodingService.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/Vue/Includes/ForwardGeocodingService.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ForwardGeocodingService; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var ForwardGeocodingService = /*#__PURE__*/function () {
+  function ForwardGeocodingService() {
+    _classCallCheck(this, ForwardGeocodingService);
+  }
+
+  _createClass(ForwardGeocodingService, [{
+    key: "search",
+    value: function search(query, callback) {
+      var _this = this;
+
+      var accessToken = 'pk.eyJ1Ijoiam9uYXRoYW5wb3J0IiwiYSI6ImNrZnR5aWk4cDB3ZjEycHBkbnZnMHhnNHQifQ.PidFMxwHKmlO8kHgcd67Sw';
+      query = this.buildQuery(query);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://api.mapbox.com/geocoding/v5/mapbox.places/".concat(query, ".json"), {
+        params: {
+          access_token: accessToken
+        }
+      }).then(function (results) {
+        callback(_this.buildResults(results.data));
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "buildQuery",
+    value: function buildQuery(query) {
+      // Remove special characters
+      query = query.replace(/[^a-zA-Z ]/g, ''); // Convert to query string
+
+      query = encodeURIComponent(query);
+      return query;
+    }
+  }, {
+    key: "buildResults",
+    value: function buildResults(results) {
+      return results;
+    }
+  }]);
+
+  return ForwardGeocodingService;
+}();
 
 
 
