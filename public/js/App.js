@@ -3642,6 +3642,33 @@ var render = function() {
   return _c("div", { staticClass: "map-controller" }, [
     _c("div", { staticClass: "map-controller__controls" }, [
       _c("div", { staticClass: "map-controller__control" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.searchQuery,
+              expression: "searchQuery"
+            }
+          ],
+          staticClass: "map-search__input",
+          attrs: { type: "text", placeholder: "search" },
+          domProps: { value: _vm.searchQuery },
+          on: {
+            input: [
+              function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.searchQuery = $event.target.value
+              },
+              _vm.onSearch
+            ]
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "map-controller__control" }, [
         _c(
           "select",
           {
@@ -3693,94 +3720,56 @@ var render = function() {
           }),
           0
         )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "map-controller__control" }, [
-        _c("div", { staticClass: "map-search" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.searchQuery,
-                expression: "searchQuery"
-              }
-            ],
-            attrs: { type: "text", placeholder: "search" },
-            domProps: { value: _vm.searchQuery },
-            on: {
-              input: [
-                function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.searchQuery = $event.target.value
-                },
-                _vm.onSearch
-              ]
-            }
-          }),
-          _vm._v(" "),
-          _vm.searchResults.length
-            ? _c(
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.searchResults.length
+      ? _c("div", { staticClass: "map-search" }, [
+          _c(
+            "div",
+            { staticClass: "map-search__results" },
+            _vm._l(_vm.searchResults, function(result) {
+              return _c(
                 "div",
-                { staticClass: "map-search__results" },
-                _vm._l(_vm.searchResults, function(result) {
-                  return _c(
+                { key: result.id, staticClass: "map-search__result" },
+                [
+                  _c(
                     "div",
-                    { key: result.id, staticClass: "map-search__result" },
+                    {
+                      staticClass: "map-search__result-inner",
+                      on: {
+                        click: function($event) {
+                          return _vm.onResultClick(result)
+                        }
+                      }
+                    },
                     [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "map-search__result-inner",
-                          on: {
-                            click: function($event) {
-                              return _vm.onResultClick(result)
-                            }
-                          }
-                        },
-                        [
-                          _c(
-                            "div",
-                            { staticClass: "map-search__result-icon" },
-                            [
-                              _c("img", {
-                                attrs: { src: result.icon, alt: "" }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "map-search__result-text" },
-                            [
-                              _c(
-                                "h3",
-                                { staticClass: "map-search__result-heading" },
-                                [_vm._v(_vm._s(result.shortText))]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "h4",
-                                {
-                                  staticClass: "map-search__result-subheading"
-                                },
-                                [_vm._v(_vm._s(result.fullText))]
-                              )
-                            ]
-                          )
-                        ]
-                      )
+                      _c("div", { staticClass: "map-search__result-icon" }, [
+                        _c("img", { attrs: { src: result.icon, alt: "" } })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "map-search__result-text" }, [
+                        _c(
+                          "h3",
+                          { staticClass: "map-search__result-heading" },
+                          [_vm._v(_vm._s(result.shortText))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "h4",
+                          { staticClass: "map-search__result-subheading" },
+                          [_vm._v(_vm._s(result.fullText))]
+                        )
+                      ])
                     ]
                   )
-                }),
-                0
+                ]
               )
-            : _vm._e()
+            }),
+            0
+          )
         ])
-      ])
-    ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
