@@ -20,7 +20,35 @@
 
             <div class="map-controller__control">
 
-                <input type="text" placeholder="search" v-model="searchQuery" @input="onSearch">
+                <div class="map-search">
+
+                    <input type="text" placeholder="search" v-model="searchQuery" @input="onSearch">
+
+                    <div class="map-search__results" v-if="searchResults.length">
+
+                        <div class="map-search__result" v-for="result in searchResults" :key="result.id">
+
+                            <div class="map-search__result-inner" @click="onResultClick(result)">
+
+                                <div class="map-search__result-icon">
+                                    <img :src="result.icon" alt="">
+                                </div>
+
+                                <div class="map-search__result-text">
+
+                                    <h3 class="map-search__result-heading">{{ result.shortText }}</h3>
+
+                                    <h4 class="map-search__result-subheading">{{ result.fullText }}</h4>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -63,23 +91,24 @@
 
                 return this.searchTimer = setTimeout(() => {
 
-                    const service = this.ForwardGeocodingService;
+                    const Service = this.ForwardGeocodingService;
 
                     this.searchResults = [];
 
                     if (this.searchQuery) {
 
-                        service.search(this.searchQuery, results => {
-
-                            console.log(results);
-
-                        });
+                        Service.search(this.searchQuery, results => this.searchResults = results);
 
                     }
 
                 }, this.searchTimerWaitTime);
 
             },
+            onResultClick(result) {
+
+                console.log(result)
+
+            }
         },
         computed: {
             //

@@ -20,7 +20,6 @@
             return {
                 map: false,
                 container: 'mapbox-canvas',
-                style: mapboxStyles.satellite_streets.style,
                 minZoom: 2,
                 maxZoom: 8,
                 maxPitch: 30,
@@ -120,6 +119,20 @@
             startZoom() {
                 return 4;
             },
+
+            style() {
+
+                let style;
+
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    style = mapboxStyles.dark.style;
+                } else {
+                    style = mapboxStyles.light.style;
+                }
+
+                return style;
+
+            }
 
         },
         filters: {
