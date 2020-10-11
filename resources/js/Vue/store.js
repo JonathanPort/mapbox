@@ -4,23 +4,28 @@ import Axios from 'axios';
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+const startEndpoint = window.location.origin + '/api/mapbox-start';
 
-    // Start Endpoint
-    startEndpoint: window.location.origin + '/api/mapbox-start',
+export const store = new Vuex.Store({
 
     // Application State
     state: {
+        app: {},
         loading: true,
         loading_message: 'Loading application...',
         lists: {},
+        appShouldStart: false,
+        fatalError: false,
     },
 
     // Getters
     getters: {
+        getAppData:             state => state.app,
         getLoadingState:        state => state.loading,
         getLoadingMessage:      state => state.loading_message,
         getLists:               state => state.lists,
+        appHasFatalError:       state => state.fatalError,
+        appShouldStart:         state => state.appShouldStart,
     },
 
     // Mutations - setters
@@ -28,25 +33,30 @@ export const store = new Vuex.Store({
         setLoading(state, loading) {
             state.loading = loading ? true : false;
         },
+        setAppData(state, data) {
+            state.app = data;
+        },
+        setFatalError(state, toggle) {
+            state.fatalError = toggle ? true : false;
+        },
+        setAppShouldState(state, toggle) {
+            state.appShouldStart = toggle ? true : false;
+        },
     },
 
     // Actions - listeners?
     actions: {
         initApp(state, callback) {
-            // console.log('ere');
-            this.commit('setLoading', true);
 
-            Axios.get(this.startEndpoint)
+            Axios.get(startEndpoint)
             .then(response => {
 
-                window.AppData = response.data;
+                this.commit('setAppData', response.data);
 
                 callback();
 
-                // this.commit('mutationFunction', response.data);
-                // setTimeout(() => this.commit('setLoading', false), 400);
-
-            });
+            })
+            .catch(error => this.commit('setFatalError', true));
 
         },
     }

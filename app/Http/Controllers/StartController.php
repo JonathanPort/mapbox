@@ -10,7 +10,7 @@ class StartController extends Controller
 {
 
     public function __construct() {
-        $this->var = $var;
+        //
     }
 
 
@@ -27,7 +27,7 @@ class StartController extends Controller
             'endpoints' => $endpoints,
         ];
 
-        return Response::json($appData, Response::HTTP_OK)
+        return response()->json($appData, Response::HTTP_OK);
 
     }
 

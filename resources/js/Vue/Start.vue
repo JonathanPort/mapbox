@@ -2,11 +2,20 @@
 
     <div class="app-wrapper">
 
-        <mapbox></mapbox>
-        <map-controller></map-controller>
+        <div v-if="shouldStart">
+
+            <mapbox></mapbox>
+
+            <map-controller></map-controller>
+
+        </div>
 
         <!-- Loading Spinner -->
-        <loader :loading="loading()" :message="this.$store.getters.getLoadingMessage"></loader>
+        <loader :loading="this.$store.getters.getLoadingState"
+                :message="this.$store.getters.getLoadingMessage"></loader>
+
+        <!-- Fatal Error Screen -->
+        <fatal-error v-if="showFatal"></fatal-error>
 
     </div>
 
@@ -26,19 +35,19 @@
         },
         data() {
             return {
-                //
+                shouldStart: false,
             }
         },
         props: {
             //
         },
         methods: {
-            loading() {
-                return this.$store.getters.getLoadingState;
-            },
+            //
         },
         computed: {
-            //
+            showFatal() {
+                return this.$store.getters.appHasFatalError ? true : false;
+            },
         },
         filters: {
             //
@@ -47,7 +56,13 @@
             //
         },
         mounted() {
-            this.$store.dispatch('initApp');
+
+            this.$store.dispatch('initApp', () => {
+
+                this.shouldStart = true;
+
+            });
+
         }
 
     }
