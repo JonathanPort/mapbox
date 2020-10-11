@@ -1987,6 +1987,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2012,15 +2040,18 @@ __webpack_require__.r(__webpack_exports__);
 
       clearTimeout(this.searchTimer);
       return this.searchTimer = setTimeout(function () {
-        var service = _this.ForwardGeocodingService;
+        var Service = _this.ForwardGeocodingService;
         _this.searchResults = [];
 
         if (_this.searchQuery) {
-          service.search(_this.searchQuery, function (results) {
-            console.log(results);
+          Service.search(_this.searchQuery, function (results) {
+            return _this.searchResults = results;
           });
         }
       }, this.searchTimerWaitTime);
+    },
+    onResultClick: function onResultClick(result) {
+      console.log(result);
     }
   },
   computed: {//
@@ -2068,7 +2099,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       map: false,
       container: 'mapbox-canvas',
-      style: _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_2__["default"].satellite_streets.style,
       minZoom: 2,
       maxZoom: 8,
       maxPitch: 30,
@@ -2143,6 +2173,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     startZoom: function startZoom() {
       return 4;
+    },
+    style: function style() {
+      var style;
+
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_2__["default"].dark.style;
+      } else {
+        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_2__["default"].light.style;
+      }
+
+      return style;
     }
   },
   filters: {//
@@ -3540,29 +3581,89 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "map-controller__control" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.searchQuery,
-              expression: "searchQuery"
+        _c("div", { staticClass: "map-search" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.searchQuery,
+                expression: "searchQuery"
+              }
+            ],
+            attrs: { type: "text", placeholder: "search" },
+            domProps: { value: _vm.searchQuery },
+            on: {
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.searchQuery = $event.target.value
+                },
+                _vm.onSearch
+              ]
             }
-          ],
-          attrs: { type: "text", placeholder: "search" },
-          domProps: { value: _vm.searchQuery },
-          on: {
-            input: [
-              function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.searchQuery = $event.target.value
-              },
-              _vm.onSearch
-            ]
-          }
-        })
+          }),
+          _vm._v(" "),
+          _vm.searchResults.length
+            ? _c(
+                "div",
+                { staticClass: "map-search__results" },
+                _vm._l(_vm.searchResults, function(result) {
+                  return _c(
+                    "div",
+                    { key: result.id, staticClass: "map-search__result" },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "map-search__result-inner",
+                          on: {
+                            click: function($event) {
+                              return _vm.onResultClick(result)
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "map-search__result-icon" },
+                            [
+                              _c("img", {
+                                attrs: { src: result.icon, alt: "" }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "map-search__result-text" },
+                            [
+                              _c(
+                                "h3",
+                                { staticClass: "map-search__result-heading" },
+                                [_vm._v(_vm._s(result.shortText))]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "h4",
+                                {
+                                  staticClass: "map-search__result-subheading"
+                                },
+                                [_vm._v(_vm._s(result.fullText))]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                }),
+                0
+              )
+            : _vm._e()
+        ])
       ])
     ])
   ])
@@ -17311,11 +17412,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ForwardGeocodingService; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _MapboxLocationModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MapboxLocationModel */ "./resources/js/Vue/Includes/MapboxLocationModel.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -17327,8 +17432,6 @@ var ForwardGeocodingService = /*#__PURE__*/function () {
   _createClass(ForwardGeocodingService, [{
     key: "search",
     value: function search(query, callback) {
-      var _this = this;
-
       var accessToken = 'pk.eyJ1Ijoiam9uYXRoYW5wb3J0IiwiYSI6ImNrZnR5aWk4cDB3ZjEycHBkbnZnMHhnNHQifQ.PidFMxwHKmlO8kHgcd67Sw';
       query = this.buildQuery(query);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://api.mapbox.com/geocoding/v5/mapbox.places/".concat(query, ".json"), {
@@ -17336,7 +17439,15 @@ var ForwardGeocodingService = /*#__PURE__*/function () {
           access_token: accessToken
         }
       }).then(function (results) {
-        callback(_this.buildResults(results.data));
+        var models = [];
+        var data = results.data.features;
+        if (_typeof(data) !== 'object') callback([]);
+
+        for (var i = 0; i < data.length; i++) {
+          models.push(new _MapboxLocationModel__WEBPACK_IMPORTED_MODULE_1__["default"](data[i]));
+        }
+
+        return callback(models);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -17350,14 +17461,126 @@ var ForwardGeocodingService = /*#__PURE__*/function () {
       query = encodeURIComponent(query);
       return query;
     }
-  }, {
-    key: "buildResults",
-    value: function buildResults(results) {
-      return results;
-    }
   }]);
 
   return ForwardGeocodingService;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Vue/Includes/MapboxLocationModel.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/Vue/Includes/MapboxLocationModel.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MapboxLocationModel; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var MapboxLocationModel = /*#__PURE__*/function () {
+  function MapboxLocationModel(mapboxApiResult) {
+    _classCallCheck(this, MapboxLocationModel);
+
+    this._result = mapboxApiResult;
+  }
+
+  _createClass(MapboxLocationModel, [{
+    key: "coordinates",
+    get: function get() {
+      return this._result.geometry.coordinates;
+    }
+  }, {
+    key: "center",
+    get: function get() {
+      return this._result.center;
+    }
+  }, {
+    key: "border",
+    get: function get() {
+      return this._result.bbox;
+    }
+  }, {
+    key: "type",
+    get: function get() {
+      return this._result.place_type[0];
+    }
+  }, {
+    key: "shortText",
+    get: function get() {
+      return this._result.text;
+    }
+  }, {
+    key: "fullText",
+    get: function get() {
+      return this._result.place_name;
+    }
+  }, {
+    key: "context",
+    get: function get() {
+      return this._result.context;
+    }
+  }, {
+    key: "id",
+    get: function get() {
+      return this._result.id;
+    }
+  }, {
+    key: "icon",
+    get: function get() {
+      var icon = 'default';
+
+      switch (this.type) {
+        case 'country':
+          icon = 'country';
+          break;
+
+        case 'place':
+          icon = 'place';
+          break;
+
+        case 'region':
+          icon = 'region';
+          break;
+
+        case 'district':
+          icon = 'district';
+          break;
+
+        case 'locality':
+          icon = 'locality';
+          break;
+
+        case 'neighborhood':
+          icon = 'neighborhood';
+          break;
+
+        case 'address':
+          icon = 'address';
+          break;
+
+        case 'postcode':
+          icon = 'postcode';
+          break;
+
+        case 'poi':
+          icon = 'poi';
+          break;
+      }
+
+      return "".concat(window.location.href, "/images/icons/mapbox-results/").concat(icon, ".png");
+    }
+  }]);
+
+  return MapboxLocationModel;
 }();
 
 

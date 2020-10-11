@@ -1,6 +1,6 @@
 .map-controller {
     position: fixed;
-    bottom: 50px;
+    top: 50px;
     left: 0;
     right: 0;
     margin: auto;
@@ -8,10 +8,12 @@
     background-color: rgba(#fff, 0.3);
     backdrop-filter: blur(24px);
     border-radius: 4px;
+    z-index: 100;
 }
 
 .map-controller__controls {
     display: flex;
+    padding: 20px;
 }
 
 .map-controller__control {}

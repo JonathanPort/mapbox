@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import MapboxLocationModel from './MapboxLocationModel';
 
 export default class ForwardGeocodingService
 {
@@ -17,7 +18,14 @@ export default class ForwardGeocodingService
         })
         .then(results => {
 
-            callback(this.buildResults(results.data));
+            const models = [];
+            const data = results.data.features;
+
+            if (typeof data !== 'object') callback([]);
+
+            for (let i = 0; i < data.length; i++) models.push(new MapboxLocationModel(data[i]));
+
+            return callback(models);
 
         })
         .catch(error => {
@@ -37,12 +45,5 @@ export default class ForwardGeocodingService
         return query;
 
     }
-
-    buildResults(results) {
-
-        return results;
-
-    }
-
 
 }
