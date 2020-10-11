@@ -2077,7 +2077,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onStyleSelect: function onStyleSelect() {
-      this.$eventHub.$emit('mapbox::change-style', this.selectedStyle);
+      this.$store.commit('setMapboxStyle', this.selectedStyle);
     },
     onSearch: function onSearch() {
       var _this = this;
@@ -2188,11 +2188,6 @@ __webpack_require__.r(__webpack_exports__);
       this.map.on('click', function (e) {
         console.log(e);
       });
-      this.$eventHub.$on('mapbox::change-style', function (style) {
-        _this.style = style;
-
-        _this.map.setStyle(_this.style);
-      });
     },
     requestCurrentLocation: function requestCurrentLocation() {
       if (navigator.geolocation) {
@@ -2290,6 +2285,10 @@ __webpack_require__.r(__webpack_exports__);
       set: function set(style) {
         return this.$store.commit('setMapboxStyle', style);
       }
+    }
+  },
+  watch: {
+    style: function style(_style) {// this.map.setStyle(style);
     }
   },
   filters: {//

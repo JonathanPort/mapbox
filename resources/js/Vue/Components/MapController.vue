@@ -81,7 +81,7 @@
         methods: {
             onStyleSelect() {
 
-                this.$eventHub.$emit('mapbox::change-style', this.selectedStyle);
+                this.$store.commit('setMapboxStyle', this.selectedStyle);
 
             },
             onSearch() {

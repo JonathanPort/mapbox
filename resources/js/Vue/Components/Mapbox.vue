@@ -60,14 +60,6 @@
 
                 });
 
-                this.$eventHub.$on('mapbox::change-style', (style) => {
-
-                    this.style = style;
-
-                    this.map.setStyle(this.style);
-
-                });
-
             },
             requestCurrentLocation() {
 
@@ -180,6 +172,11 @@
                 }
             }
 
+        },
+        watch: {
+            style(style) {
+                // this.map.setStyle(style);
+            },
         },
         filters: {
             //
