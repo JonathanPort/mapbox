@@ -2288,7 +2288,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   watch: {
-    style: function style(_style) {// this.map.setStyle(style);
+    style: function style(_style) {
+      this.map.setStyle(_style);
     }
   },
   filters: {//

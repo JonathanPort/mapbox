@@ -175,7 +175,7 @@
         },
         watch: {
             style(style) {
-                // this.map.setStyle(style);
+                this.map.setStyle(style);
             },
         },
         filters: {
