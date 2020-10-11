@@ -17525,6 +17525,8 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+  // Start Endpoint
+  startEndpoint: window.location.origin + '/api/mapbox-start',
   // Application State
   state: {
     loading: true,
@@ -17551,12 +17553,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   },
   // Actions - listeners?
   actions: {
-    initApp: function initApp(state) {
-      this.commit('setLoading', true); // Axios.get(window.crm.DASHBOARD_INIT_URL)
-      // .then(response => {
-      //     // this.commit('mutationFunction', response.data);
-      //     setTimeout(() => this.commit('setLoading', false), 400);
-      // });
+    initApp: function initApp(state, callback) {
+      // console.log('ere');
+      this.commit('setLoading', true);
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(this.startEndpoint).then(function (response) {
+        window.AppData = response.data;
+        callback(); // this.commit('mutationFunction', response.data);
+        // setTimeout(() => this.commit('setLoading', false), 400);
+      });
     }
   }
 });
@@ -17581,8 +17585,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/Jonathan/Desktop/Projects/world-friends/resources/js/App.js */"./resources/js/App.js");
-module.exports = __webpack_require__(/*! /Users/Jonathan/Desktop/Projects/world-friends/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jonathan/Desktop/Projects/mapbox/resources/js/App.js */"./resources/js/App.js");
+module.exports = __webpack_require__(/*! /Users/jonathan/Desktop/Projects/mapbox/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

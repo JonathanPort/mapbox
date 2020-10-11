@@ -6,6 +6,9 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 
+    // Start Endpoint
+    startEndpoint: window.location.origin + '/api/mapbox-start',
+
     // Application State
     state: {
         loading: true,
@@ -29,17 +32,21 @@ export const store = new Vuex.Store({
 
     // Actions - listeners?
     actions: {
-        initApp(state) {
-
+        initApp(state, callback) {
+            // console.log('ere');
             this.commit('setLoading', true);
 
-            // Axios.get(window.crm.DASHBOARD_INIT_URL)
-            // .then(response => {
+            Axios.get(this.startEndpoint)
+            .then(response => {
 
-            //     // this.commit('mutationFunction', response.data);
-            //     setTimeout(() => this.commit('setLoading', false), 400);
+                window.AppData = response.data;
 
-            // });
+                callback();
+
+                // this.commit('mutationFunction', response.data);
+                // setTimeout(() => this.commit('setLoading', false), 400);
+
+            });
 
         },
     }
