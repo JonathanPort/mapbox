@@ -18,17 +18,7 @@
     export default {
         data() {
             return {
-                map: false,
                 container: 'mapbox-canvas',
-                minZoom: 2,
-                maxZoom: 8,
-                maxPitch: 30,
-                renderWorldCopies: false,
-                maxBounds: [
-                    [-178.87718014230165, -84.97472632065279], // Southwest coordinates
-                    [178.58152105004024, 84.92832115514318] // Northeast coordinates
-                ],
-                currentLocation: false,
             }
         },
         props: {
@@ -45,8 +35,8 @@
                     minZoom:                this.minZoom,
                     maxZoom:                this.maxZoom,
                     maxPitch:               this.maxPitch,
-                    center:                 this.startLocation,
-                    zoom:                   this.startZoom,
+                    center:                 this.initialLocation,
+                    zoom:                   this.initialZoom,
                     renderWorldCopies:      this.renderWorldCopies,
                     maxBounds:              this.maxBounds,
                 });
@@ -109,29 +99,85 @@
         },
         computed: {
 
-            startLocation() {
-                return [
-                    -2.195051236058873,
-                    53.28857482514107,
-                ];
+            map: {
+                get() {
+                    return this.$store.getters.mapbox.map;
+                },
+                set(map) {
+                    return this.$store.commit('setMapboxMap', map);
+                },
             },
 
-            startZoom() {
-                return 4;
+            minZoom: {
+                get() {
+                    return this.$store.getters.mapbox.minZoom;
+                },
+                set(minZoom) {
+                    return this.$store.commit('setMapboxMinZoom', minZoom);
+                },
             },
 
-            style() {
+            maxZoom: {
+                get() {
+                    return this.$store.getters.mapbox.maxZoom;
+                },
+                set(maxZoom) {
+                    return this.$store.commit('setMapboxMaxZoom', maxZoom);
+                },
+            },
 
-                let style;
+            renderWorldCopies: {
+                get() {
+                    return this.$store.getters.mapbox.renderWorldCopies;
+                },
+                set(renderWorldCopies) {
+                    return this.$store.commit('setMapboxRenderWorldCopies', renderWorldCopies);
+                },
+            },
 
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    style = mapboxStyles.dark.style;
-                } else {
-                    style = mapboxStyles.light.style;
+            maxBounds: {
+                get() {
+                    return this.$store.getters.mapbox.maxBounds;
+                },
+                set(maxBounds) {
+                    return this.$store.commit('setMapboxMaxBounds', maxBounds);
+                },
+            },
+
+            currentLocation: {
+                get() {
+                    return this.$store.getters.mapbox.currentLocation;
+                },
+                set(currentLocation) {
+                    return this.$store.commit('setMapboxCurrentLocation', currentLocation);
+                },
+            },
+
+            initialLocation: {
+                get() {
+                    return this.$store.getters.mapbox.initialLocation;
+                },
+                set(initialLocation) {
+                    return this.$store.commit('setMapboxInitialLocation', initialLocation);
+                },
+            },
+
+            initialZoom: {
+                get() {
+                    return this.$store.getters.mapbox.initialZoom;
+                },
+                set(initialZoom) {
+                    return this.$store.commit('setMapboxInitialZoom', initialZoom);
+                },
+            },
+
+            style: {
+                get() {
+                    return this.$store.getters.mapbox.style;
+                },
+                set(style) {
+                    return this.$store.commit('setMapboxStyle', style);
                 }
-
-                return style;
-
             }
 
         },

@@ -2066,8 +2066,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       mapboxStyles: _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"],
-      selectedStyle: _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"].satellite.style,
       searchQuery: '',
+      selectedStyle: false,
       searchResults: [],
       searchTimer: false,
       searchTimerWaitTime: 400
@@ -2102,13 +2102,25 @@ __webpack_require__.r(__webpack_exports__);
     ForwardGeocodingService: function ForwardGeocodingService() {
       var key = this.$store.getters.app.keys.mapbox;
       return new _Includes_ForwardGeocodingService__WEBPACK_IMPORTED_MODULE_1__["default"](key);
+    },
+    startStyle: function startStyle() {
+      var style;
+
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"].dark.style;
+      } else {
+        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"].light.style;
+      }
+
+      return style;
     }
   },
   filters: {//
   },
   created: function created() {//
   },
-  mounted: function mounted() {//
+  mounted: function mounted() {
+    this.selectedStyle = this.startStyle;
   }
 });
 
@@ -2145,16 +2157,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      map: false,
-      container: 'mapbox-canvas',
-      minZoom: 2,
-      maxZoom: 8,
-      maxPitch: 30,
-      renderWorldCopies: false,
-      maxBounds: [[-178.87718014230165, -84.97472632065279], // Southwest coordinates
-      [178.58152105004024, 84.92832115514318] // Northeast coordinates
-      ],
-      currentLocation: false
+      container: 'mapbox-canvas'
     };
   },
   props: {//
@@ -2168,8 +2171,8 @@ __webpack_require__.r(__webpack_exports__);
         minZoom: this.minZoom,
         maxZoom: this.maxZoom,
         maxPitch: this.maxPitch,
-        center: this.startLocation,
-        zoom: this.startZoom,
+        center: this.initialLocation,
+        zoom: this.initialZoom,
         renderWorldCopies: this.renderWorldCopies,
         maxBounds: this.maxBounds
       });
@@ -2216,22 +2219,77 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    startLocation: function startLocation() {
-      return [-2.195051236058873, 53.28857482514107];
-    },
-    startZoom: function startZoom() {
-      return 4;
-    },
-    style: function style() {
-      var style;
-
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_2__["default"].dark.style;
-      } else {
-        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_2__["default"].light.style;
+    map: {
+      get: function get() {
+        return this.$store.getters.mapbox.map;
+      },
+      set: function set(map) {
+        return this.$store.commit('setMapboxMap', map);
       }
-
-      return style;
+    },
+    minZoom: {
+      get: function get() {
+        return this.$store.getters.mapbox.minZoom;
+      },
+      set: function set(minZoom) {
+        return this.$store.commit('setMapboxMinZoom', minZoom);
+      }
+    },
+    maxZoom: {
+      get: function get() {
+        return this.$store.getters.mapbox.maxZoom;
+      },
+      set: function set(maxZoom) {
+        return this.$store.commit('setMapboxMaxZoom', maxZoom);
+      }
+    },
+    renderWorldCopies: {
+      get: function get() {
+        return this.$store.getters.mapbox.renderWorldCopies;
+      },
+      set: function set(renderWorldCopies) {
+        return this.$store.commit('setMapboxRenderWorldCopies', renderWorldCopies);
+      }
+    },
+    maxBounds: {
+      get: function get() {
+        return this.$store.getters.mapbox.maxBounds;
+      },
+      set: function set(maxBounds) {
+        return this.$store.commit('setMapboxMaxBounds', maxBounds);
+      }
+    },
+    currentLocation: {
+      get: function get() {
+        return this.$store.getters.mapbox.currentLocation;
+      },
+      set: function set(currentLocation) {
+        return this.$store.commit('setMapboxCurrentLocation', currentLocation);
+      }
+    },
+    initialLocation: {
+      get: function get() {
+        return this.$store.getters.mapbox.initialLocation;
+      },
+      set: function set(initialLocation) {
+        return this.$store.commit('setMapboxInitialLocation', initialLocation);
+      }
+    },
+    initialZoom: {
+      get: function get() {
+        return this.$store.getters.mapbox.initialZoom;
+      },
+      set: function set(initialZoom) {
+        return this.$store.commit('setMapboxInitialZoom', initialZoom);
+      }
+    },
+    style: {
+      get: function get() {
+        return this.$store.getters.mapbox.style;
+      },
+      set: function set(style) {
+        return this.$store.commit('setMapboxStyle', style);
+      }
     }
   },
   filters: {//
@@ -17447,15 +17505,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************!*\
   !*** ./resources/js/Vue/Components/MapController.vue ***!
   \*******************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MapController_vue_vue_type_template_id_dedcf234___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MapController.vue?vue&type=template&id=dedcf234& */ "./resources/js/Vue/Components/MapController.vue?vue&type=template&id=dedcf234&");
 /* harmony import */ var _MapController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MapController.vue?vue&type=script&lang=js& */ "./resources/js/Vue/Components/MapController.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _MapController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _MapController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -17485,7 +17542,7 @@ component.options.__file = "resources/js/Vue/Components/MapController.vue"
 /*!********************************************************************************!*\
   !*** ./resources/js/Vue/Components/MapController.vue?vue&type=script&lang=js& ***!
   \********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17926,6 +17983,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Includes/MapboxStyles */ "./resources/js/Vue/Includes/MapboxStyles.js");
+
 
 
 
@@ -17935,6 +17994,19 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   // Application State
   state: {
     app: {},
+    mapbox: {
+      map: false,
+      style: false,
+      minZoom: 2,
+      maxZoom: 8,
+      initialZoom: 4,
+      renderWorldCopies: false,
+      maxBounds: [[-178.87718014230165, -84.97472632065279], // Southwest coordinates
+      [178.58152105004024, 84.92832115514318] // Northeast coordinates
+      ],
+      initialLocation: [-2.195051236058873, 53.28857482514107],
+      currentLocation: false
+    },
     loading: true,
     loading_message: 'Loading application...',
     lists: {},
@@ -17945,6 +18017,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   getters: {
     app: function app(state) {
       return state.app;
+    },
+    mapbox: function mapbox(state) {
+      return state.mapbox;
     },
     getLoadingState: function getLoadingState(state) {
       return state.loading;
@@ -17975,15 +18050,55 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setAppShouldState: function setAppShouldState(state, toggle) {
       state.appShouldStart = toggle ? true : false;
+    },
+    setMapboxMap: function setMapboxMap(state, data) {
+      state.mapbox.map = data;
+    },
+    setMapboxMinZoom: function setMapboxMinZoom(state, data) {
+      state.mapbox.minZoom = data;
+    },
+    setMapboxMaxZoom: function setMapboxMaxZoom(state, data) {
+      state.mapbox.maxZoom = data;
+    },
+    setMapboxInitialZoom: function setMapboxInitialZoom(state, data) {
+      state.mapbox.initialZoom = data;
+    },
+    setMapboxRenderWorldCopies: function setMapboxRenderWorldCopies(state, data) {
+      state.mapbox.renderWorldCopies = data;
+    },
+    setMapboxMaxBounds: function setMapboxMaxBounds(state, data) {
+      state.mapbox.maxBounds = data;
+    },
+    setMapboxCurrentLocation: function setMapboxCurrentLocation(state, data) {
+      state.mapbox.currentLocation = data;
+    },
+    setMapboxInitialLocation: function setMapboxInitialLocation(state, data) {
+      state.mapbox.initialLocation = data;
+    },
+    setMapboxStyle: function setMapboxStyle(state, data) {
+      state.mapbox.style = data;
+    },
+    setMapboxInitialStyle: function setMapboxInitialStyle(state) {
+      var style;
+
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__["default"].dark.style;
+      } else {
+        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__["default"].light.style;
+      }
+
+      state.mapbox.style = style;
     }
   },
-  // Actions - listeners?
+  // Actions
   actions: {
     initApp: function initApp(state, callback) {
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(startEndpoint).then(function (response) {
         _this.commit('setAppData', response.data);
+
+        _this.commit('setMapboxInitialStyle');
 
         callback();
       })["catch"](function (error) {

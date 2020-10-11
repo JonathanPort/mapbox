@@ -68,8 +68,8 @@
         data() {
             return {
                 mapboxStyles: MapboxStyles,
-                selectedStyle: MapboxStyles.satellite.style,
                 searchQuery: '',
+                selectedStyle: false,
                 searchResults: [],
                 searchTimer: false,
                 searchTimerWaitTime: 400,
@@ -117,6 +117,21 @@
                 return new ForwardGeocodingService(key);
 
             },
+
+            startStyle() {
+
+                let style;
+
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    style = MapboxStyles.dark.style;
+                } else {
+                    style = MapboxStyles.light.style;
+                }
+
+                return style;
+
+            },
+
         },
         filters: {
             //
@@ -125,7 +140,9 @@
             //
         },
         mounted() {
-            //
+
+            this.selectedStyle = this.startStyle;
+
         }
 
     }
