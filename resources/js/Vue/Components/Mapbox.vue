@@ -37,18 +37,18 @@
         methods: {
             startMapbox() {
 
-                Mapbox.accessToken = 'pk.eyJ1Ijoiam9uYXRoYW5wb3J0IiwiYSI6ImNrZnR5aWk4cDB3ZjEycHBkbnZnMHhnNHQifQ.PidFMxwHKmlO8kHgcd67Sw';
+                Mapbox.accessToken = this.$store.getters.app.keys.mapbox;
 
                 const Map = new Mapbox.Map({
-                    container: this.container,
-                    style: this.style,
-                    minZoom: this.minZoom,
-                    maxZoom: this.maxZoom,
-                    maxPitch: this.maxPitch,
-                    center: this.startLocation,
-                    zoom: this.startZoom,
-                    renderWorldCopies: this.renderWorldCopies,
-                    maxBounds: this.maxBounds,
+                    container:              this.container,
+                    style:                  this.style,
+                    minZoom:                this.minZoom,
+                    maxZoom:                this.maxZoom,
+                    maxPitch:               this.maxPitch,
+                    center:                 this.startLocation,
+                    zoom:                   this.startZoom,
+                    renderWorldCopies:      this.renderWorldCopies,
+                    maxBounds:              this.maxBounds,
                 });
 
                 this.map = Map;

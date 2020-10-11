@@ -71,7 +71,6 @@
                 selectedStyle: MapboxStyles.satellite.style,
                 searchQuery: '',
                 searchResults: [],
-                ForwardGeocodingService: new ForwardGeocodingService(),
                 searchTimer: false,
                 searchTimerWaitTime: 400,
             }
@@ -111,7 +110,13 @@
             }
         },
         computed: {
-            //
+            ForwardGeocodingService() {
+
+                const key = this.$store.getters.app.keys.mapbox;
+
+                return new ForwardGeocodingService(key);
+
+            },
         },
         filters: {
             //

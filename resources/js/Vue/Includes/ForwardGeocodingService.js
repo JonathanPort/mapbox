@@ -4,16 +4,17 @@ import MapboxLocationModel from './MapboxLocationModel';
 export default class ForwardGeocodingService
 {
 
+    constructor(key) {
+        this.mapboxKey = key;
+    }
 
     search(query, callback) {
-
-        const accessToken = 'pk.eyJ1Ijoiam9uYXRoYW5wb3J0IiwiYSI6ImNrZnR5aWk4cDB3ZjEycHBkbnZnMHhnNHQifQ.PidFMxwHKmlO8kHgcd67Sw';
 
         query = this.buildQuery(query);
 
         Axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json`, {
             params: {
-                access_token: accessToken,
+                access_token: this.mapboxKey,
             },
         })
         .then(results => {

@@ -2069,7 +2069,6 @@ __webpack_require__.r(__webpack_exports__);
       selectedStyle: _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"].satellite.style,
       searchQuery: '',
       searchResults: [],
-      ForwardGeocodingService: new _Includes_ForwardGeocodingService__WEBPACK_IMPORTED_MODULE_1__["default"](),
       searchTimer: false,
       searchTimerWaitTime: 400
     };
@@ -2099,7 +2098,11 @@ __webpack_require__.r(__webpack_exports__);
       console.log(result);
     }
   },
-  computed: {//
+  computed: {
+    ForwardGeocodingService: function ForwardGeocodingService() {
+      var key = this.$store.getters.app.keys.mapbox;
+      return new _Includes_ForwardGeocodingService__WEBPACK_IMPORTED_MODULE_1__["default"](key);
+    }
   },
   filters: {//
   },
@@ -2158,7 +2161,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     startMapbox: function startMapbox() {
-      mapbox_gl_dist_mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default.a.accessToken = 'pk.eyJ1Ijoiam9uYXRoYW5wb3J0IiwiYSI6ImNrZnR5aWk4cDB3ZjEycHBkbnZnMHhnNHQifQ.PidFMxwHKmlO8kHgcd67Sw';
+      mapbox_gl_dist_mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default.a.accessToken = this.$store.getters.app.keys.mapbox;
       var Map = new mapbox_gl_dist_mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default.a.Map({
         container: this.container,
         style: this.style,
@@ -17444,14 +17447,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************!*\
   !*** ./resources/js/Vue/Components/MapController.vue ***!
   \*******************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MapController_vue_vue_type_template_id_dedcf234___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MapController.vue?vue&type=template&id=dedcf234& */ "./resources/js/Vue/Components/MapController.vue?vue&type=template&id=dedcf234&");
 /* harmony import */ var _MapController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MapController.vue?vue&type=script&lang=js& */ "./resources/js/Vue/Components/MapController.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _MapController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _MapController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -17481,7 +17485,7 @@ component.options.__file = "resources/js/Vue/Components/MapController.vue"
 /*!********************************************************************************!*\
   !*** ./resources/js/Vue/Components/MapController.vue?vue&type=script&lang=js& ***!
   \********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17603,18 +17607,19 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var ForwardGeocodingService = /*#__PURE__*/function () {
-  function ForwardGeocodingService() {
+  function ForwardGeocodingService(key) {
     _classCallCheck(this, ForwardGeocodingService);
+
+    this.mapboxKey = key;
   }
 
   _createClass(ForwardGeocodingService, [{
     key: "search",
     value: function search(query, callback) {
-      var accessToken = 'pk.eyJ1Ijoiam9uYXRoYW5wb3J0IiwiYSI6ImNrZnR5aWk4cDB3ZjEycHBkbnZnMHhnNHQifQ.PidFMxwHKmlO8kHgcd67Sw';
       query = this.buildQuery(query);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://api.mapbox.com/geocoding/v5/mapbox.places/".concat(query, ".json"), {
         params: {
-          access_token: accessToken
+          access_token: this.mapboxKey
         }
       }).then(function (results) {
         var models = [];
@@ -17938,7 +17943,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   },
   // Getters
   getters: {
-    getAppData: function getAppData(state) {
+    app: function app(state) {
       return state.app;
     },
     getLoadingState: function getLoadingState(state) {

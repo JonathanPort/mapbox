@@ -20,7 +20,7 @@ export const store = new Vuex.Store({
 
     // Getters
     getters: {
-        getAppData:             state => state.app,
+        app:                    state => state.app,
         getLoadingState:        state => state.loading,
         getLoadingMessage:      state => state.loading_message,
         getLists:               state => state.lists,

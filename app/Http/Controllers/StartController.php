@@ -23,8 +23,13 @@ class StartController extends Controller
             'mapboxStart' => route('start.mapbox'),
         ];
 
+        $keys = [
+            'mapbox' => env('MAPBOX_API_KEY'),
+        ];
+
         $appData = [
             'endpoints' => $endpoints,
+            'keys' => $keys,
         ];
 
         return response()->json($appData, Response::HTTP_OK);
