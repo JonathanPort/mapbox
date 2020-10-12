@@ -23,4 +23,12 @@ export default {
         label: 'Satellite Streets',
         style: 'mapbox://styles/mapbox/satellite-streets-v9',
     },
+    le_shine: {
+        label: 'Lè Shine',
+        style: 'mapbox://styles/jonathanport/ckg6l81461kxt19mcammhk123',
+    },
+    le_shine_dark: {
+        label: 'Lè Shine (Dark)',
+        style: 'mapbox://styles/jonathanport/ckg6lv9251li619o71kgx7w85',
+    },
 };

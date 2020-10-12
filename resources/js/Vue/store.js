@@ -93,9 +93,9 @@ export const store = new Vuex.Store({
             let style;
 
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                style = mapboxStyles.dark.style;
+                style = mapboxStyles.le_shine_dark.style;
             } else {
-                style = mapboxStyles.light.style;
+                style = mapboxStyles.le_shine.style;
             }
 
             state.mapbox.style = style;

@@ -17859,6 +17859,14 @@ __webpack_require__.r(__webpack_exports__);
   satellite_streets: {
     label: 'Satellite Streets',
     style: 'mapbox://styles/mapbox/satellite-streets-v9'
+  },
+  le_shine: {
+    label: 'Lè Shine',
+    style: 'mapbox://styles/jonathanport/ckg6l81461kxt19mcammhk123'
+  },
+  le_shine_dark: {
+    label: 'Lè Shine (Dark)',
+    style: 'mapbox://styles/jonathanport/ckg6lv9251li619o71kgx7w85'
   }
 });
 
@@ -18081,9 +18089,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       var style;
 
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__["default"].dark.style;
+        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__["default"].le_shine_dark.style;
       } else {
-        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__["default"].light.style;
+        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__["default"].le_shine.style;
       }
 
       state.mapbox.style = style;
@@ -18127,8 +18135,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jonathan/Desktop/Projects/mapbox/resources/js/App.js */"./resources/js/App.js");
-module.exports = __webpack_require__(/*! /Users/jonathan/Desktop/Projects/mapbox/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/Jonathan/Desktop/Projects/world-friends/resources/js/App.js */"./resources/js/App.js");
+module.exports = __webpack_require__(/*! /Users/Jonathan/Desktop/Projects/world-friends/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

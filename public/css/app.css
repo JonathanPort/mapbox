@@ -477,23 +477,19 @@ body {
 }
 
 .map-search__result {
-  background-color: #ffffff;
-  border: 1px solid #99acbd;
-  border-radius: 3px;
   overflow: hidden;
 }
 
 .map-search__result:not(:last-child) {
   margin-bottom: 15px;
+  border-bottom: 1px solid #99acbd;
 }
 
 .map-search__result-inner {
   display: flex;
   align-items: center;
-  padding-left: 15px;
-  padding-right: 15px;
   padding-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 }
 
 .map-search__result-icon {
