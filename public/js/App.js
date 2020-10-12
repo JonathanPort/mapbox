@@ -2170,7 +2170,6 @@ __webpack_require__.r(__webpack_exports__);
         style: this.style,
         minZoom: this.minZoom,
         maxZoom: this.maxZoom,
-        maxPitch: this.maxPitch,
         center: this.initialLocation,
         zoom: this.initialZoom,
         renderWorldCopies: this.renderWorldCopies,
