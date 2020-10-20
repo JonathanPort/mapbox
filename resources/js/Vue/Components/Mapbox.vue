@@ -35,7 +35,7 @@
                     minZoom:                this.minZoom,
                     maxZoom:                this.maxZoom,
                     center:                 this.initialLocation,
-                    zoom:                   this.initialZoom,
+                    zoom:                   this.zoom,
                     renderWorldCopies:      this.renderWorldCopies,
                     maxBounds:              this.maxBounds,
                 });
@@ -56,6 +56,13 @@
                 this.map.on('click', (e) => {
 
                     console.log(e);
+
+                });
+
+
+                this.map.on('zoom', (e) => {
+
+                    this.zoom = this.map.getZoom();
 
                 });
 
@@ -153,12 +160,12 @@
                 },
             },
 
-            initialZoom: {
+            zoom: {
                 get() {
-                    return this.$store.getters.mapbox.initialZoom;
+                    return this.$store.getters.mapbox.zoom;
                 },
-                set(initialZoom) {
-                    return this.$store.commit('setMapboxInitialZoom', initialZoom);
+                set(zoom) {
+                    return this.$store.commit('setMapboxZoom', zoom);
                 },
             },
 

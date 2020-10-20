@@ -2104,15 +2104,7 @@ __webpack_require__.r(__webpack_exports__);
       return new _Includes_ForwardGeocodingService__WEBPACK_IMPORTED_MODULE_1__["default"](key);
     },
     startStyle: function startStyle() {
-      var style;
-
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"].dark.style;
-      } else {
-        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_0__["default"].light.style;
-      }
-
-      return style;
+      return this.$store.getters.mapbox.style;
     }
   },
   filters: {//
@@ -2171,7 +2163,7 @@ __webpack_require__.r(__webpack_exports__);
         minZoom: this.minZoom,
         maxZoom: this.maxZoom,
         center: this.initialLocation,
-        zoom: this.initialZoom,
+        zoom: this.zoom,
         renderWorldCopies: this.renderWorldCopies,
         maxBounds: this.maxBounds
       });
@@ -2186,6 +2178,9 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.map.on('click', function (e) {
         console.log(e);
+      });
+      this.map.on('zoom', function (e) {
+        _this.zoom = _this.map.getZoom();
       });
     },
     requestCurrentLocation: function requestCurrentLocation() {
@@ -2269,12 +2264,12 @@ __webpack_require__.r(__webpack_exports__);
         return this.$store.commit('setMapboxInitialLocation', initialLocation);
       }
     },
-    initialZoom: {
+    zoom: {
       get: function get() {
-        return this.$store.getters.mapbox.initialZoom;
+        return this.$store.getters.mapbox.zoom;
       },
-      set: function set(initialZoom) {
-        return this.$store.commit('setMapboxInitialZoom', initialZoom);
+      set: function set(zoom) {
+        return this.$store.commit('setMapboxZoom', zoom);
       }
     },
     style: {
@@ -2499,6 +2494,205 @@ function toComment(sourceMap) {
 
 	return '/*# ' + data + ' */';
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/lockr/lockr.js":
+/*!*************************************!*\
+  !*** ./node_modules/lockr/lockr.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function(root, factory) {
+
+  if (true) {
+    if ( true && module.exports) {
+      exports = module.exports = factory(root, exports);
+    }
+  } else {}
+
+}(this, function(root, Lockr) {
+  'use strict';
+
+  if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function(elt /*, from*/)
+    {
+      var len = this.length >>> 0;
+
+      var from = Number(arguments[1]) || 0;
+      from = (from < 0)
+      ? Math.ceil(from)
+      : Math.floor(from);
+      if (from < 0)
+        from += len;
+
+      for (; from < len; from++)
+      {
+        if (from in this &&
+            this[from] === elt)
+          return from;
+      }
+      return -1;
+    };
+  }
+
+  Lockr.prefix = "";
+
+  Lockr._getPrefixedKey = function(key, options) {
+    options = options || {};
+
+    if (options.noPrefix) {
+      return key;
+    } else {
+      return this.prefix + key;
+    }
+
+  };
+
+  Lockr.set = function (key, value, options) {
+    var query_key = this._getPrefixedKey(key, options);
+
+    try {
+      localStorage.setItem(query_key, JSON.stringify({"data": value}));
+    } catch (e) {
+      if (console) console.warn("Lockr didn't successfully save the '{"+ key +": "+ value +"}' pair, because the localStorage is full.");
+    }
+  };
+
+  Lockr.get = function (key, missing, options) {
+    var query_key = this._getPrefixedKey(key, options),
+        value;
+
+    try {
+      value = JSON.parse(localStorage.getItem(query_key));
+    } catch (e) {
+            if(localStorage[query_key]) {
+              value = {data: localStorage.getItem(query_key)};
+            } else{
+                value = null;
+            }
+    }
+    
+    if(!value) {
+      return missing;
+    }
+    else if (typeof value === 'object' && typeof value.data !== 'undefined') {
+      return value.data;
+    }
+  };
+
+  Lockr.sadd = function(key, value, options) {
+    var query_key = this._getPrefixedKey(key, options),
+        json;
+
+    var values = Lockr.smembers(key);
+
+    if (values.indexOf(value) > -1) {
+      return null;
+    }
+
+    try {
+      values.push(value);
+      json = JSON.stringify({"data": values});
+      localStorage.setItem(query_key, json);
+    } catch (e) {
+      console.log(e);
+      if (console) console.warn("Lockr didn't successfully add the "+ value +" to "+ key +" set, because the localStorage is full.");
+    }
+  };
+
+  Lockr.smembers = function(key, options) {
+    var query_key = this._getPrefixedKey(key, options),
+        value;
+
+    try {
+      value = JSON.parse(localStorage.getItem(query_key));
+    } catch (e) {
+      value = null;
+    }
+    
+    return (value && value.data) ? value.data : [];
+  };
+
+  Lockr.sismember = function(key, value, options) {
+    return Lockr.smembers(key).indexOf(value) > -1;
+  };
+
+  Lockr.keys = function() {
+    var keys = [];
+    var allKeys = Object.keys(localStorage);
+
+    if (Lockr.prefix.length === 0) {
+      return allKeys;
+    }
+
+    allKeys.forEach(function (key) {
+      if (key.indexOf(Lockr.prefix) !== -1) {
+        keys.push(key.replace(Lockr.prefix, ''));
+      }
+    });
+
+    return keys;
+  };
+
+  Lockr.getAll = function (includeKeys) {
+    var keys = Lockr.keys();
+
+    if (includeKeys) {
+      return keys.reduce(function (accum, key) {
+        var tempObj = {};
+        tempObj[key] = Lockr.get(key);
+        accum.push(tempObj);
+        return accum;
+      }, []);
+    }
+
+    return keys.map(function (key) {
+      return Lockr.get(key);
+    });
+  };
+
+  Lockr.srem = function(key, value, options) {
+    var query_key = this._getPrefixedKey(key, options),
+        json,
+        index;
+
+    var values = Lockr.smembers(key, value);
+
+    index = values.indexOf(value);
+
+    if (index > -1)
+      values.splice(index, 1);
+
+    json = JSON.stringify({"data": values});
+
+    try {
+      localStorage.setItem(query_key, json);
+    } catch (e) {
+      if (console) console.warn("Lockr couldn't remove the "+ value +" from the set "+ key);
+    }
+  };
+
+  Lockr.rm =  function (key) {
+    var queryKey = this._getPrefixedKey(key);
+    
+    localStorage.removeItem(queryKey);
+  };
+
+  Lockr.flush = function () {
+    if (Lockr.prefix.length) {
+      Lockr.keys().forEach(function(key) {
+        localStorage.removeItem(Lockr._getPrefixedKey(key));
+      });
+    } else {
+      localStorage.clear();
+    }
+  };
+  return Lockr;
+
+}));
 
 
 /***/ }),
@@ -17990,13 +18184,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Includes/MapboxStyles */ "./resources/js/Vue/Includes/MapboxStyles.js");
+/* harmony import */ var lockr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lockr */ "./node_modules/lockr/lockr.js");
+/* harmony import */ var lockr__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lockr__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Includes/MapboxStyles */ "./resources/js/Vue/Includes/MapboxStyles.js");
+
 
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var startEndpoint = window.location.origin + '/api/mapbox-start';
+
+var LocalStateStorage = function LocalStateStorage() {
+  return lockr__WEBPACK_IMPORTED_MODULE_3___default.a.get('user_mapbox_state');
+};
+
+var UpdateLocalStateStorage = function UpdateLocalStateStorage(data) {
+  return lockr__WEBPACK_IMPORTED_MODULE_3___default.a.set('user_mapbox_state', data);
+};
+
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   // Application State
   state: {
@@ -18006,7 +18212,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       style: false,
       minZoom: 2,
       maxZoom: 8,
-      initialZoom: 4,
+      zoom: 4.00,
       renderWorldCopies: false,
       maxBounds: [[-178.87718014230165, -84.97472632065279], // Southwest coordinates
       [178.58152105004024, 84.92832115514318] // Northeast coordinates
@@ -18067,8 +18273,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     setMapboxMaxZoom: function setMapboxMaxZoom(state, data) {
       state.mapbox.maxZoom = data;
     },
-    setMapboxInitialZoom: function setMapboxInitialZoom(state, data) {
-      state.mapbox.initialZoom = data;
+    setMapboxZoom: function setMapboxZoom(state, data) {
+      state.mapbox.zoom = data;
+      var storage = LocalStateStorage();
+
+      if (storage && storage.zoom) {
+        storage.zoom = data;
+        UpdateLocalStateStorage(storage);
+      }
     },
     setMapboxRenderWorldCopies: function setMapboxRenderWorldCopies(state, data) {
       state.mapbox.renderWorldCopies = data;
@@ -18084,17 +18296,40 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setMapboxStyle: function setMapboxStyle(state, data) {
       state.mapbox.style = data;
+      var storage = LocalStateStorage();
+
+      if (storage) {
+        storage.style = data;
+        UpdateLocalStateStorage(storage);
+      }
     },
     setMapboxInitialStyle: function setMapboxInitialStyle(state) {
       var style;
+      var storage = LocalStateStorage();
 
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__["default"].le_shine_dark.style;
+      if (storage && storage.style) {
+        style = storage.style;
       } else {
-        style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_3__["default"].le_shine.style;
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_4__["default"].le_shine_dark.style;
+        } else {
+          style = _Includes_MapboxStyles__WEBPACK_IMPORTED_MODULE_4__["default"].le_shine.style;
+        }
       }
 
       state.mapbox.style = style;
+    },
+    setMapboxInitialZoom: function setMapboxInitialZoom(state) {
+      var zoom;
+      var storage = LocalStateStorage();
+
+      if (storage && storage.zoom) {
+        zoom = storage.zoom;
+      } else {
+        zoom = state.mapbox.zoom;
+      }
+
+      state.mapbox.zoom = zoom;
     }
   },
   // Actions
@@ -18107,6 +18342,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 
         _this.commit('setMapboxInitialStyle');
 
+        _this.commit('setMapboxInitialZoom');
+
+        if (!lockr__WEBPACK_IMPORTED_MODULE_3___default.a.get('user_mapbox_state')) lockr__WEBPACK_IMPORTED_MODULE_3___default.a.set('user_mapbox_state', {
+          style: _this.getters.mapbox.style,
+          zoom: _this.getters.mapbox.zoom,
+          initialLocation: [-2.195051236058873, 53.28857482514107],
+          currentLocation: false
+        });
         callback();
       })["catch"](function (error) {
         return _this.commit('setFatalError', true);

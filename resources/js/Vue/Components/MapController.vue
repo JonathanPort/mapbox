@@ -120,15 +120,7 @@
 
             startStyle() {
 
-                let style;
-
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    style = MapboxStyles.dark.style;
-                } else {
-                    style = MapboxStyles.light.style;
-                }
-
-                return style;
+                return this.$store.getters.mapbox.style;
 
             },
 
